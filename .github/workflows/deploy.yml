@@ -1,0 +1,28 @@
+name: Deploy to Chrome Web Store
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1 
+    - name: Archive
+      run: |
+        VERSION=$(jq -rc .version < manifest.json)
+        echo "Building zip for $VERSION"
+        mkdir build
+        zip -9 build/release.zip *.png *.js *.json
+
+    - name: Deploy to Chrome Web Store
+      uses: trmcnvn/chrome-addon@v2
+      with:
+        # extension is only necessary when updating an existing addon,
+        # omitting it will create a new addon
+        extension: afpbehmhepnibneenbpakilpelfhlcld
+        zip: build/release.zip
+        client-id: ${{ secrets.CHROME_CLIENT_ID }}
+        client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+        refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
