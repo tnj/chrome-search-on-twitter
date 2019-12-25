@@ -4,7 +4,7 @@ chrome.browserAction.onClicked.addListener(function (tab) {
     chrome.tabs.sendMessage(tab.id, "canonicalUrl", function (canonicalUrl) {
         const url = (canonicalUrl || tab.url).replace(/^https?:\/\//, '');
         chrome.tabs.create({
-            url: "https://twitter.com/search?f=tweets&q=url%3A" + encodeURIComponent(url)
+            url: "https://twitter.com/search?f=live&q=url%3A" + encodeURIComponent(url)
         });
     });
 });
