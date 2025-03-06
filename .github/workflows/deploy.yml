@@ -14,7 +14,7 @@ jobs:
         VERSION=$(jq -rc .version < manifest.json)
         echo "Building zip for $VERSION"
         mkdir build
-        zip -9 build/release.zip *.png *.js *.json
+        zip -9 build/release.zip *.png *.js *.json *.md
 
     - name: Deploy to Chrome Web Store
       uses: trmcnvn/chrome-addon@v2
